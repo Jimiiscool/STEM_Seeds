@@ -1,0 +1,146 @@
+---
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} · STEM Seeds</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a href="/" class="brand">STEM Seeds</a>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/boxes">Boxes</a>
+        <a href="/partners">Partners</a>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <p class="brand-name">STEM Seeds</p>
+          <p class="tagline">Bringing hands-on STEM to kids in Africa and India.</p>
+        </div>
+        <div class="footer-col">
+          <span class="col-heading">Explore</span>
+          <a href="/">Home</a>
+          <a href="/boxes">Boxes</a>
+          <a href="/partners">Partners</a>
+        </div>
+        <div class="footer-col">
+          <span class="col-heading">Connect</span>
+          <a href="mailto:hello@example.org">Contact us</a>
+          <a href="/#donate" class="donate-link">Donate</a>
+          <div class="socials">
+            <!-- Replace with real social links -->
+            <a href="#" aria-label="Instagram">IG</a>
+            <a href="#" aria-label="LinkedIn">LI</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© {new Date().getFullYear()} STEM Seeds. A university robotics team initiative.</p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    color: #1a1a1a;
+  }
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    background: #7fd4e8;
+  }
+  .brand {
+    font-weight: 700;
+    text-decoration: none;
+    color: inherit;
+  }
+  .site-header nav a {
+    margin-left: 1.25rem;
+    text-decoration: none;
+    color: inherit;
+    font-size: 14px;
+  }
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+  .site-footer {
+    background: #fafafa;
+    border-top: 1px solid #eee;
+    padding: 1.5rem 1.75rem;
+    margin-top: 3rem;
+  }
+  .footer-top {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+  }
+  .brand-name {
+    font-weight: 500;
+    margin: 0 0 6px;
+  }
+  .tagline {
+    font-size: 12px;
+    color: #666;
+    max-width: 220px;
+    margin: 0;
+  }
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+  }
+  .footer-col a {
+    color: #1a1a1a;
+    text-decoration: none;
+  }
+  .col-heading {
+    font-size: 12px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 2px;
+  }
+  .donate-link {
+    color: #0077aa;
+  }
+  .socials {
+    display: flex;
+    gap: 10px;
+    margin-top: 2px;
+    font-size: 12px;
+  }
+  .footer-bottom {
+    border-top: 1px solid #eee;
+    margin-top: 16px;
+    padding-top: 12px;
+  }
+  .footer-bottom p {
+    margin: 0;
+    font-size: 11px;
+    color: #999;
+  }
+</style>

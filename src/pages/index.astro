@@ -1,0 +1,98 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+const boxes = (await getCollection('boxes')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+const partners = (await getCollection('partners')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+---
+
+<Layout title="Home">
+  <!-- Mission — replace placeholder text; fold the sponsors/partners
+       stat in as a sentence + link here rather than a separate block -->
+  <section>
+    <h1>Mission</h1>
+    <p>
+      Placeholder mission text. Partnering with {partners.length} organization{partners.length === 1 ? '' : 's'} to
+      reach kids across Africa and India — <a href="/partners">meet our partners →</a>
+    </p>
+  </section>
+
+  <!-- About us + team captain, tucked in right after -->
+  <section>
+    <h2>About us</h2>
+    <p>Placeholder team description.</p>
+    <div class="captain">
+      <p class="captain-name">Team Captain Name</p>
+    </div>
+  </section>
+
+  <!-- Our Partners (currently just the full short list) -->
+  <section>
+    <h2>Our Partners</h2>
+    <ul class="partner-list">
+      {partners.map((p) => <li>{p.data.name}</li>)}
+    </ul>
+  </section>
+
+  <!-- What's in a STEM Box teaser -->
+  <section class="teaser">
+    <h2>What's in a STEM Box?</h2>
+    <a class="button" href="/boxes">Explore Our Boxes</a>
+  </section>
+
+  <!-- Get Involved: donate + live Zeffy thermometer -->
+  <section id="donate" class="get-involved">
+    <h2>Get Involved</h2>
+    <p>You can help us reach even more people. Donate to our cause using this link, anything counts!</p>
+
+    <!--
+      Paste your Zeffy embed snippet here. Zeffy's thermometer
+      updates live with every gift — no custom code needed.
+      Example (replace with your real embed from the Zeffy dashboard):
+
+      <div class="zeffy-embed" data-campaign-id="YOUR_CAMPAIGN_ID"></div>
+      <script src="https://zeffy-scripts.s3.ca-central-1.amazonaws.com/embed-form-script.min.js"></script>
+    -->
+
+    <a class="button" href="https://www.zeffy.com/" target="_blank" rel="noopener">
+      Donate to Our Cause
+    </a>
+  </section>
+</Layout>
+
+<style>
+  section {
+    margin-bottom: 2.5rem;
+  }
+  .partner-list {
+    list-style: none;
+    padding: 0;
+    font-size: 14px;
+  }
+  .teaser,
+  .get-involved {
+    text-align: center;
+  }
+  .button {
+    display: inline-block;
+    background: #7fd4e8;
+    color: #1a1a1a;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 8px;
+  }
+  .captain {
+    margin-top: 1rem;
+  }
+  .captain-name {
+    font-weight: 500;
+    font-size: 14px;
+  }
+</style>

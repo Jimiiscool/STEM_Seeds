@@ -1,0 +1,62 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import ExpandableRow from '../components/ExpandableRow.astro';
+
+const boxes = (await getCollection('boxes')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+---
+
+<Layout title="STEM Boxes">
+  <section class="intro">
+    <h1>What are STEM Boxes</h1>
+    <p>
+      Each box is a self-contained, hands-on kit designed to introduce a
+      specific STEM concept — built for kids with little to no prior
+      exposure to hands-on science and engineering.
+    </p>
+  </section>
+
+  <h2 class="section-heading">Our Boxes</h2>
+  <div class="rows">
+    {boxes.map((box) => (
+      <ExpandableRow
+        title={box.data.title}
+        status={box.data.status}
+        summary={box.data.summary}
+        focus={box.data.focus}
+        contents={box.data.contents}
+        potentialUses={box.data.potentialUses}
+        image={box.data.image}
+        startExpanded={box.data.flagship}
+      />
+    ))}
+  </div>
+</Layout>
+
+<style>
+  .intro {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .intro h1 {
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
+  .intro p {
+    font-size: 14px;
+    color: #666;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .section-heading {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+  .rows {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+</style>
