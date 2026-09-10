@@ -17,7 +17,7 @@ const partners = (await getCollection('partners')).sort(
     <h1>Mission</h1>
     <p>
       Placeholder mission text. Partnering with {partners.length} organization{partners.length === 1 ? '' : 's'} to
-      reach kids across Africa and India — <a href="/partners">meet our partners →</a>
+      reach kids across Africa and India — <a href="#partners">meet our partners →</a>
     </p>
   </section>
 
@@ -31,7 +31,7 @@ const partners = (await getCollection('partners')).sort(
   </section>
 
   <!-- Our Partners (currently just the full short list) -->
-  <section>
+  <section id="partners">
     <h2>Our Partners</h2>
     <ul class="partner-list">
       {partners.map((p) => <li>{p.data.name}</li>)}
