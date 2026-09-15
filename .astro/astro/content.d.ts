@@ -163,6 +163,15 @@ declare module 'astro:content' {
   data: InferEntrySchema<"boxes">
 } & { render(): Render[".md"] };
 };
+"captain": {
+"captain.md": {
+	id: "captain.md";
+  slug: "captain";
+  body: string;
+  collection: "captain";
+  data: any
+} & { render(): Render[".md"] };
+};
 "partners": {
 "example-partner.md": {
 	id: "example-partner.md";

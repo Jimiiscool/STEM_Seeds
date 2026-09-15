@@ -1,98 +1,366 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import StemRail from '../components/StemRail.astro';
 
-const boxes = (await getCollection('boxes')).sort(
-  (a, b) => a.data.order - b.data.order
-);
 const partners = (await getCollection('partners')).sort(
   (a, b) => a.data.order - b.data.order
 );
 ---
 
 <Layout title="Home">
-  <!-- Mission — replace placeholder text; fold the sponsors/partners
-       stat in as a sentence + link here rather than a separate block -->
-  <section>
-    <h1>Mission</h1>
-    <p>
-      Placeholder mission text. Partnering with {partners.length} organization{partners.length === 1 ? '' : 's'} to
-      reach kids across Africa and India — <a href="#partners">meet our partners →</a>
-    </p>
-  </section>
-
-  <!-- About us + team captain, tucked in right after -->
-  <section>
-    <h2>About us</h2>
-    <p>Placeholder team description.</p>
-    <div class="captain">
-      <p class="captain-name">Team Captain Name</p>
+  <!-- Hero: the stem sprouts out of the bottom of this block -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <h1>
+        A box of science,<br />sent where there isn't one.
+      </h1>
+      <p class="hero-lede">
+        We're a university robotics team building hands-on STEM kits and
+        shipping them to kids in Africa and India — with local partners who
+        put them straight into classrooms.
+      </p>
+      <div class="hero-actions">
+        <a class="button" href="/boxes">See what's in a box</a>
+        <a class="button-quiet" href="#donate">Support a shipment</a>
+      </div>
     </div>
+    <svg class="hero-sprout" viewBox="0 0 80 60" aria-hidden="true">
+      <path d="M40 60V22" />
+      <path d="M40 30c0-10 6-16 16-16 0 10-6 16-16 16Z" />
+      <path d="M40 40c-8 0-13-5-13-13 8 0 13 5 13 13Z" />
+    </svg>
   </section>
 
-  <!-- Our Partners (currently just the full short list) -->
-  <section id="partners">
-    <h2>Our Partners</h2>
-    <ul class="partner-list">
-      {partners.map((p) => <li>{p.data.name}</li>)}
-    </ul>
-  </section>
+  <StemRail>
+    <section class="stem-section split">
+      <div class="split-text">
+        <h2>Why we started</h2>
+        <p class="prose">
+          Placeholder mission text — replace this with the real thing. Two or
+          three sentences on what gap you're filling and why your team is the
+          one filling it.
+        </p>
+        <p class="stat-line">
+          Working with <strong>{partners.length}</strong>
+          partner organization{partners.length === 1 ? '' : 's'} on the ground —
+          <a href="#partners">see who they are</a>
+        </p>
+      </div>
+      <div class="split-media">
+        <div class="photo photo-lg" aria-hidden="true"></div>
+        <div class="photo photo-sm" aria-hidden="true"></div>
+      </div>
+    </section>
 
-  <!-- What's in a STEM Box teaser -->
-  <section class="teaser">
-    <h2>What's in a STEM Box?</h2>
-    <a class="button" href="/boxes">Explore Our Boxes</a>
-  </section>
+    <section class="stem-section split split-reverse">
+      <div class="split-text">
+        <h2>Who we are</h2>
+        <p class="prose">
+          Placeholder team description. A short paragraph on the robotics team,
+          how STEM Seeds started, and who builds the kits.
+        </p>
 
-  <!-- Get Involved: donate + live Zeffy thermometer -->
-  <section id="donate" class="get-involved">
-    <h2>Get Involved</h2>
-    <p>You can help us reach even more people. Donate to our cause using this link, anything counts!</p>
+        <figure class="captain">
+          <div class="captain-photo" aria-hidden="true"></div>
+          <figcaption>
+            <p class="captain-name">Siddhant Samar</p>
+            <p class="captain-role">Team captain</p>
+          </figcaption>
+        </figure>
+      </div>
+      <div class="split-media">
+        <div class="photo photo-lg" aria-hidden="true"></div>
+      </div>
+    </section>
 
-    <!--
-      Paste your Zeffy embed snippet here. Zeffy's thermometer
-      updates live with every gift — no custom code needed.
-      Example (replace with your real embed from the Zeffy dashboard):
+    <section class="stem-section" id="partners">
+      <h2>Who we work with</h2>
+      <p class="prose">
+        Every box reaches a classroom through someone local. These are the
+        organizations making that happen.
+      </p>
+      <ul class="partner-grid">
+        {partners.map((p) => (
+          <li class="partner-card">
+            <div class="partner-logo" aria-hidden="true"></div>
+            <p class="partner-name">{p.data.name}</p>
+            <p class="partner-blurb">{p.data.blurb}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
 
-      <div class="zeffy-embed" data-campaign-id="YOUR_CAMPAIGN_ID"></div>
-      <script src="https://zeffy-scripts.s3.ca-central-1.amazonaws.com/embed-form-script.min.js"></script>
-    -->
+    <section class="stem-section donate-section" id="donate">
+      <div class="donate-heading">
+        <h2>Send the next box</h2>
+        <p class="prose prose-center">
+          Every donation goes to materials and shipping. Nothing else.
+        </p>
+      </div>
 
-    <a class="button" href="https://www.zeffy.com/" target="_blank" rel="noopener">
-      Donate to Our Cause
-    </a>
-  </section>
+      <div class="donate-card">
+        <!--
+          Paste your Zeffy embed here — its thermometer updates live
+          with every gift. Get the snippet from your Zeffy dashboard
+          under the campaign's sharing / embed settings.
+        -->
+        <div class="zeffy-slot">
+          <p>Zeffy donation thermometer embeds here</p>
+        </div>
+
+        <a class="button" href="https://www.zeffy.com/" target="_blank" rel="noopener">
+          Donate to STEM Seeds
+        </a>
+      </div>
+    </section>
+  </StemRail>
 </Layout>
 
 <style>
-  section {
-    margin-bottom: 2.5rem;
+  /* ---------- hero ---------- */
+  .hero {
+    position: relative;
+    background: var(--tint);
+    padding: 5rem 0 6.5rem;
+    border-bottom: 1px solid var(--color-silver-light);
   }
-  .partner-list {
-    list-style: none;
-    padding: 0;
-    font-size: 14px;
+  .hero-inner {
+    max-width: 44rem;
   }
-  .teaser,
-  .get-involved {
-    text-align: center;
+  .hero h1 {
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    font-weight: 600;
+    color: var(--color-primary-deep);
   }
+  .hero-lede {
+    margin: 1.5rem 0 0;
+    font-size: 1.1rem;
+    max-width: 34rem;
+    color: var(--color-dark);
+  }
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+  /* the sprout that the page's stem grows out of */
+  .hero-sprout {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-31rem);
+    bottom: -1px;
+    width: 80px;
+    height: 60px;
+    fill: none;
+    stroke: var(--color-secondary);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+  }
+  @media (max-width: 1040px) {
+    .hero-sprout { display: none; }
+  }
+
+  /* ---------- shared ---------- */
   .button {
     display: inline-block;
-    background: #7fd4e8;
-    color: #1a1a1a;
+    background: var(--color-primary);
+    color: #fff;
     text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    margin-top: 8px;
+    padding: 0.7rem 1.4rem;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 600;
   }
+  .button:hover { background: var(--color-primary-deep); }
+  .button-quiet {
+    display: inline-block;
+    padding: 0.7rem 1.4rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-silver);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+  .button-quiet:hover { border-color: var(--color-primary); }
+
+  /* ---------- alternating split sections ---------- */
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 3rem;
+    align-items: center;
+  }
+  /* reversed: media column moves to the left, text to the right */
+  .split-reverse .split-text { order: 2; }
+  .split-reverse .split-media { order: 1; }
+
+  .split-media {
+    position: relative;
+    min-height: 15rem;
+  }
+  .photo {
+    background: var(--tint);
+    border: 1px solid var(--color-silver-light);
+    border-radius: 50%;
+  }
+  .photo-lg {
+    width: 13rem;
+    height: 13rem;
+    margin-left: auto;
+  }
+  /* second, smaller circle offset from the first — echoes the
+     staggered circles in the original wireframe */
+  .photo-sm {
+    width: 7.5rem;
+    height: 7.5rem;
+    position: absolute;
+    left: 0.5rem;
+    bottom: -1.5rem;
+  }
+  .split-reverse .photo-lg { margin-left: 0; }
+
+  @media (max-width: 860px) {
+    .split {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .split-reverse .split-text { order: 1; }
+    .split-reverse .split-media { order: 2; }
+    .split-media { min-height: 0; }
+    .photo-lg { width: 10rem; height: 10rem; margin-left: 0; }
+    .photo-sm { display: none; }
+  }
+
+  .prose {
+    max-width: 38rem;
+    margin: 1rem 0 0;
+  }
+  h2 {
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+  }
+
+  .stat-line {
+    margin-top: 1.25rem;
+    font-size: 0.95rem;
+    color: var(--color-silver-dark);
+  }
+  .stat-line strong {
+    color: var(--color-secondary);
+    font-size: 1.15rem;
+  }
+  .stat-line a { color: var(--color-primary); }
+
+  /* ---------- captain ---------- */
   .captain {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem 0 0;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--color-silver-light);
+    border-left: 3px solid var(--color-secondary);
+    border-radius: 0 10px 10px 0;
+    max-width: 22rem;
+  }
+  .captain-photo {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--color-silver-light);
+    flex-shrink: 0;
+  }
+  .captain figcaption p { margin: 0; }
+  .captain-name { font-weight: 600; }
+  .captain-role {
+    font-size: 0.85rem;
+    color: var(--color-silver-dark);
+  }
+
+  /* ---------- partners ---------- */
+  .partner-grid {
+    list-style: none;
+    padding: 0;
+    margin: 1.75rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1rem;
+  }
+  .partner-card {
+    border: 1px solid var(--color-silver-light);
+    border-radius: 12px;
+    padding: 1.25rem;
+  }
+  .partner-logo {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    background: var(--color-silver-light);
+    margin-bottom: 0.75rem;
+  }
+  .partner-name {
+    margin: 0 0 0.35rem;
+    font-weight: 600;
+  }
+  .partner-blurb {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--color-silver-dark);
+  }
+
+  /* ---------- donate ---------- */
+  /* A little visual weight so this section doesn't read as "just
+     another block" — centered heading up top, then the actual
+     action (tracker + button) pulled off to the right rather than
+     sitting dead-center under the text. */
+  .donate-section {
+    background: var(--tint);
+    margin-left: calc(-1 * var(--rail));
+    margin-right: calc(-1.5rem);
+    padding-left: var(--rail);
+    padding-right: 1.5rem;
+    border-radius: 16px;
+  }
+  .donate-heading {
+    text-align: center;
+    max-width: 32rem;
+    margin: 0 auto;
+  }
+  .prose-center {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .donate-card {
+    margin-top: 2rem;
+    margin-left: auto;
+    max-width: 22rem;
+  }
+  .zeffy-slot {
+    padding: 2rem;
+    border: 1px dashed var(--color-silver);
+    border-radius: 12px;
+    text-align: center;
+    color: var(--color-silver-dark);
+    font-size: 0.875rem;
+    background: var(--color-bg);
+  }
+  .zeffy-slot p { margin: 0; }
+  .donate-card .button {
+    display: block;
+    text-align: center;
     margin-top: 1rem;
   }
-  .captain-name {
-    font-weight: 500;
-    font-size: 14px;
+
+  @media (max-width: 640px) {
+    .donate-section {
+      margin-left: 0;
+      margin-right: 0;
+      padding-left: 1.5rem;
+    }
+    .donate-card {
+      margin-left: 0;
+      max-width: none;
+    }
   }
 </style>

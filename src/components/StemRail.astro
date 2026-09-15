@@ -1,0 +1,129 @@
+---
+// The "growing stem" — a decorative vertical rail that draws itself
+// as the visitor scrolls. Sections inside <StemRail> attach to it
+// via .stem-section, which renders a leaf node on the rail.
+//
+// Purely decorative: hidden from screen readers, and it collapses
+// away entirely on narrow screens and under prefers-reduced-motion.
+---
+
+<div class="stem-wrap">
+  <div class="stem-track" aria-hidden="true">
+    <div class="stem-grow"></div>
+  </div>
+  <div class="stem-content">
+    <slot />
+  </div>
+</div>
+
+<style is:global>
+  .stem-wrap {
+    position: relative;
+    max-width: 62rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .stem-track {
+    position: absolute;
+    left: 1.5rem;
+    top: 0;
+    bottom: 6rem;
+    width: 2px;
+    background: var(--color-silver-light);
+    border-radius: 2px;
+  }
+
+  /* The part that "grows" — height is driven by scroll progress. */
+  .stem-grow {
+    width: 100%;
+    height: var(--stem-progress, 0%);
+    background: linear-gradient(
+      to bottom,
+      var(--color-secondary),
+      var(--color-primary)
+    );
+    border-radius: 2px;
+    transition: height 120ms linear;
+  }
+
+  .stem-content {
+    padding-left: var(--rail);
+  }
+
+  /* Each section sprouts a leaf on the rail. */
+  .stem-section {
+    position: relative;
+    padding: 3.5rem 0;
+  }
+  .stem-section + .stem-section {
+    border-top: 1px solid var(--color-silver-light);
+  }
+
+  .stem-section::before {
+    content: "";
+    position: absolute;
+    left: calc(var(--rail) * -1 - 0.5rem);
+    top: 4rem;
+    width: 14px;
+    height: 14px;
+    background: var(--color-secondary);
+    /* leaf shape: round three corners, point one */
+    border-radius: 100% 0 100% 100%;
+    transform: rotate(45deg);
+    box-shadow: 0 0 0 4px var(--color-bg);
+  }
+  .stem-section:nth-child(even)::before {
+    border-radius: 0 100% 100% 100%;
+    transform: rotate(-45deg);
+  }
+
+  @media (max-width: 720px) {
+    .stem-track { display: none; }
+    .stem-content { padding-left: 0; }
+    .stem-section::before { display: none; }
+    .stem-section { padding: 2.5rem 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stem-grow { transition: none; }
+  }
+</style>
+
+<script>
+  // Map scroll position over the stem's range onto the rail's fill height.
+  const wrap = document.querySelector<HTMLElement>('.stem-wrap');
+  const track = document.querySelector<HTMLElement>('.stem-track');
+
+  if (wrap && track) {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reduced) {
+      // No growth animation — just show the stem fully.
+      track.style.setProperty('--stem-progress', '100%');
+    } else {
+      let ticking = false;
+
+      const update = () => {
+        const rect = wrap.getBoundingClientRect();
+        const start = window.innerHeight * 0.85;
+        const total = rect.height - window.innerHeight * 0.25;
+        const travelled = start - rect.top;
+        const pct = Math.max(0, Math.min(1, travelled / total));
+        track.style.setProperty('--stem-progress', `${pct * 100}%`);
+        ticking = false;
+      };
+
+      const onScroll = () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+      };
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      update();
+    }
+  }
+</script>

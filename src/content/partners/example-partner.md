@@ -1,7 +1,7 @@
 ---
-name: "Example Partner Organization"
+name: "Descreened"
 kind: "partner"
-blurb: "Replace this with a real blurb about how this organization partners with STEM Seeds — what region they're in, how boxes reach kids through them, etc."
-website: "https://example.com"
+blurb: "Descreened is a student-led initiative helping young people develop healthier digital habits through education, free resources, community projects, and international chapters."
+website: "https://www.descreened.net/"
 order: 1
 ---

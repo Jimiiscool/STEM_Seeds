@@ -9,17 +9,18 @@ const boxes = (await getCollection('boxes')).sort(
 ---
 
 <Layout title="STEM Boxes">
-  <section class="intro">
-    <h1>What are STEM Boxes</h1>
-    <p>
-      Each box is a self-contained, hands-on kit designed to introduce a
-      specific STEM concept — built for kids with little to no prior
-      exposure to hands-on science and engineering.
-    </p>
+  <section class="page-intro">
+    <div class="container">
+      <h1>What's in a STEM box</h1>
+      <p class="lede">
+        Each box is self-contained — everything a kid needs for a set of
+        hands-on projects, with no lab, no internet, and no prior experience
+        assumed.
+      </p>
+    </div>
   </section>
 
-  <h2 class="section-heading">Our Boxes</h2>
-  <div class="rows">
+  <div class="container box-list">
     {boxes.map((box) => (
       <ExpandableRow
         title={box.data.title}
@@ -36,27 +37,25 @@ const boxes = (await getCollection('boxes')).sort(
 </Layout>
 
 <style>
-  .intro {
-    text-align: center;
-    margin-bottom: 2rem;
+  .page-intro {
+    background: var(--tint);
+    padding: 4rem 0;
+    border-bottom: 1px solid var(--color-silver-light);
   }
-  .intro h1 {
-    font-size: 20px;
-    margin-bottom: 6px;
+  .page-intro h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--color-primary-deep);
+    max-width: 20ch;
   }
-  .intro p {
-    font-size: 14px;
-    color: #666;
-    max-width: 480px;
-    margin: 0 auto;
+  .lede {
+    margin: 1.25rem 0 0;
+    font-size: 1.05rem;
+    max-width: 36rem;
   }
-  .section-heading {
-    font-size: 18px;
-    margin-bottom: 12px;
-  }
-  .rows {
+  .box-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 0.9rem;
+    padding-top: 3rem;
   }
 </style>
