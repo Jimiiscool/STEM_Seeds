@@ -11,18 +11,26 @@ const partners = (await getCollection('partners')).sort(
 <Layout title="Home">
   <!-- Hero: the stem sprouts out of the bottom of this block -->
   <section class="hero">
-    <div class="container hero-inner">
-      <h1>
-        A box of science,<br />sent where there isn't one.
-      </h1>
-      <p class="hero-lede">
-        We're a university robotics team building hands-on STEM kits and
-        shipping them to kids in Africa and India — with local partners who
-        put them straight into classrooms.
-      </p>
-      <div class="hero-actions">
-        <a class="button" href="/boxes">See what's in a box</a>
-        <a class="button-quiet" href="#donate">Support a shipment</a>
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <h1>
+          A box of science,<br />sent where there isn't one.
+        </h1>
+        <p class="hero-lede">
+          We're a university robotics team building hands-on STEM kits and
+          shipping them to kids in Africa and India — with local partners who
+          put them straight into classrooms.
+        </p>
+        <div class="hero-actions">
+          <a class="button" href="/boxes">See what's in a box</a>
+          <a class="button-quiet" href="#donate">Support a shipment</a>
+        </div>
+      </div>
+      <div class="hero-photo-block">
+        <div class="hero-photo" aria-hidden="true">
+          <!-- Replace with an actual team photo: <img src="/team.jpg" alt="STEM Seeds team" /> -->
+        </div>
+        <p class="hero-photo-caption">Brought to you by Vanguard</p>
       </div>
     </div>
     <svg class="hero-sprout" viewBox="0 0 80 60" aria-hidden="true">
@@ -74,12 +82,14 @@ const partners = (await getCollection('partners')).sort(
       </div>
     </section>
 
-    <section class="stem-section" id="partners">
-      <h2>Who we work with</h2>
-      <p class="prose">
-        Every box reaches a classroom through someone local. These are the
-        organizations making that happen.
-      </p>
+    <section class="stem-section partners-section" id="partners">
+      <div class="partners-heading">
+        <h2>Our Partners</h2>
+        <p class="prose prose-center">
+          Every box reaches a classroom through someone local. These are the
+          organizations making that happen.
+        </p>
+      </div>
       <ul class="partner-grid">
         {partners.map((p) => (
           <li class="partner-card">
@@ -125,11 +135,40 @@ const partners = (await getCollection('partners')).sort(
     padding: 5rem 0 6.5rem;
     border-bottom: 1px solid var(--color-silver-light);
   }
-  .hero-inner {
-    max-width: 44rem;
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: 3rem;
+    align-items: center;
+  }
+  .hero-photo-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .hero-photo {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    max-width: 26rem;
+    border-radius: 20px;
+    background: #ffffff;
+    border: 1px solid var(--color-silver-light);
+    overflow: hidden;
+  }
+  .hero-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hero-photo-caption {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-primary-deep);
+    margin: 0;
   }
   .hero h1 {
-    font-size: clamp(2.4rem, 6vw, 4rem);
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
     font-weight: 600;
     color: var(--color-primary-deep);
   }
@@ -160,6 +199,14 @@ const partners = (await getCollection('partners')).sort(
   }
   @media (max-width: 1040px) {
     .hero-sprout { display: none; }
+  }
+  @media (max-width: 860px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .hero-photo-block { order: -1; }
+    .hero-photo { max-width: 20rem; }
   }
 
   /* ---------- shared ---------- */
@@ -279,22 +326,32 @@ const partners = (await getCollection('partners')).sort(
   }
 
   /* ---------- partners ---------- */
+  .partners-heading {
+    text-align: center;
+    max-width: 32rem;
+    margin: 0 auto;
+  }
   .partner-grid {
     list-style: none;
     padding: 0;
-    margin: 1.75rem 0 0;
+    margin: 2.25rem auto 0;
+    max-width: 40rem;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
     gap: 1rem;
+    justify-content: center;
   }
   .partner-card {
     border: 1px solid var(--color-silver-light);
     border-radius: 12px;
     padding: 1.25rem;
+    text-align: center;
   }
   .partner-logo {
     width: 44px;
     height: 44px;
+    margin-left: auto;
+    margin-right: auto;
     border-radius: 8px;
     background: var(--color-silver-light);
     margin-bottom: 0.75rem;
@@ -309,19 +366,30 @@ const partners = (await getCollection('partners')).sort(
     color: var(--color-silver-dark);
   }
 
-  /* ---------- donate ---------- */
-  /* A little visual weight so this section doesn't read as "just
-     another block" — centered heading up top, then the actual
-     action (tracker + button) pulled off to the right rather than
-     sitting dead-center under the text. */
-  .donate-section {
-    background: var(--tint);
-    margin-left: calc(-1 * var(--rail));
-    margin-right: calc(-1.5rem);
-    padding-left: var(--rail);
-    padding-right: 1.5rem;
-    border-radius: 16px;
+  /* ---------- alternating section backgrounds ---------- */
+  /* Every other section along the stem gets a full-bleed tinted
+     background that spans the entire viewport width — not just the
+     content column — with the rail rendered on top of it (z-index
+     on .stem-track / .stem-section::before in StemRail.astro).
+     The ::after here is what actually bleeds edge-to-edge; z-index:-1
+     keeps it behind normal in-flow text automatically, and the rail's
+     explicit z-index keeps it above this regardless of DOM order. */
+  .stem-section {
+    position: relative;
   }
+  .stem-section:nth-of-type(even)::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 100vw;
+    transform: translateX(-50%);
+    background: var(--tint);
+    z-index: -1;
+  }
+
+  /* ---------- donate ---------- */
   .donate-heading {
     text-align: center;
     max-width: 32rem;
@@ -334,6 +402,7 @@ const partners = (await getCollection('partners')).sort(
   .donate-card {
     margin-top: 2rem;
     margin-left: auto;
+    margin-right: auto;
     max-width: 22rem;
   }
   .zeffy-slot {
@@ -353,13 +422,7 @@ const partners = (await getCollection('partners')).sort(
   }
 
   @media (max-width: 640px) {
-    .donate-section {
-      margin-left: 0;
-      margin-right: 0;
-      padding-left: 1.5rem;
-    }
     .donate-card {
-      margin-left: 0;
       max-width: none;
     }
   }
