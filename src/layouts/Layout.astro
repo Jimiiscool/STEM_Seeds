@@ -14,7 +14,7 @@ const { title } = Astro.props;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Archivo:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Nunito+Sans:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
   </head>
@@ -81,8 +81,7 @@ const { title } = Astro.props;
     --tint: #dcbff6;
 
     --font-display: "Fraunces", Georgia, serif;
-    --font-body: "Archivo", system-ui, sans-serif;
-
+    --font-body: "Nunito Sans", system-ui, sans-serif;
     --rail: 3.25rem;
   }
 
@@ -150,8 +149,10 @@ const { title } = Astro.props;
     margin-left: 1.5rem;
     text-decoration: none;
     font-size: 0.9rem;
+    font-weight: 700;
     color: var(--color-silver-dark);
   }
+  
   .site-header nav a:hover { color: var(--color-primary); }
 
   /* ---------- footer ---------- */

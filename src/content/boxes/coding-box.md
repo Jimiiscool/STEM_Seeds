@@ -1,9 +1,9 @@
 ---
-title: "Coding Box"
+title: "Coming Soon"
 status: "coming-soon"
-summary: "Programming fundamentals through guided, unplugged and on-device projects."
-focus: "Intro to programming logic."
-contents: "In development."
+summary: "In development"
+focus: "In development"
+contents: "In development"
 potentialUses: "In development."
 flagship: false
 order: 3

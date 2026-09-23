@@ -1,10 +1,10 @@
 ---
-title: "Circuits Box"
-status: "available"
-summary: "Learn electronics basics through hands-on builds like a simple alarm circuit."
-focus: "Intro to circuits, conductivity, and basic electronics."
-contents: "Breadboard, LEDs, resistors, battery pack, guide booklet."
-potentialUses: "Build a simple alarm circuit, a light-up greeting card, a basic flashlight."
+title: "Coming Soon"
+status: "coming-soon"
+summary: "In development"
+focus: "In development"
+contents: "In development"
+potentialUses: "In development"
 flagship: false
 order: 2
 ---

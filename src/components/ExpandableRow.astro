@@ -1,9 +1,7 @@
 ---
 // Shared expand/collapse row for the STEM Boxes page.
-// Collapsed: thumbnail, title, status badge, one-line summary.
-// Expanded: adds Focus / Contents / Potential uses.
-//
-// Motion here is user-triggered — it shows what changed when you click.
+// Available boxes: clickable, expand to show Focus / Contents / Potential uses.
+// Coming-soon boxes: static, non-interactive — no expand behavior at all.
 
 interface Props {
   title: string;
@@ -27,42 +25,60 @@ const {
   startExpanded = false,
 } = Astro.props;
 
-const statusLabel = status === 'available' ? 'Available' : 'In development';
+const isComingSoon = status === 'coming-soon';
+const statusLabel = isComingSoon ? 'Coming soon' : 'Available';
 ---
 
-<article class:list={['row', { muted: status === 'coming-soon' }]}>
-  <button class="row-header" type="button" aria-expanded={startExpanded}>
-    <span class="thumb" aria-hidden="true">
-      {image && <img src={image} alt="" />}
-    </span>
-    <span class="header-text">
-      <span class="title-line">
-        <span class="title">{title}</span>
-        <span class:list={['badge', status]}>{statusLabel}</span>
+<article class:list={['row', { muted: isComingSoon }]}>
+  {isComingSoon ? (
+    <div class="row-header row-header-static">
+      <span class="thumb" aria-hidden="true">
+        {image && <img src={image} alt="" />}
       </span>
-      <span class="summary">{summary}</span>
-    </span>
-    <svg class="chevron" viewBox="0 0 16 16" aria-hidden="true">
-      <path d="M4 6l4 4 4-4" />
-    </svg>
-  </button>
-
-  <div class="details-outer" data-open={startExpanded ? 'true' : 'false'}>
-    <div class="details">
-      <div class="field">
-        <p class="field-label">Focus</p>
-        <p class="field-value">{focus}</p>
-      </div>
-      <div class="field">
-        <p class="field-label">What's inside</p>
-        <p class="field-value">{contents}</p>
-      </div>
-      <div class="field">
-        <p class="field-label">What you can build</p>
-        <p class="field-value">{potentialUses}</p>
-      </div>
+      <span class="header-text">
+        <span class="title-line">
+          <span class="title">{title}</span>
+          <span class:list={['badge', status]}>{statusLabel}</span>
+        </span>
+        <span class="summary">{summary}</span>
+      </span>
     </div>
-  </div>
+  ) : (
+    <>
+      <button class="row-header" type="button" aria-expanded={startExpanded}>
+        <span class="thumb" aria-hidden="true">
+          {image && <img src={image} alt="" />}
+        </span>
+        <span class="header-text">
+          <span class="title-line">
+            <span class="title">{title}</span>
+            <span class:list={['badge', status]}>{statusLabel}</span>
+          </span>
+          <span class="summary">{summary}</span>
+        </span>
+        <svg class="chevron" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M4 6l4 4 4-4" />
+        </svg>
+      </button>
+
+      <div class="details-outer" data-open={startExpanded ? 'true' : 'false'}>
+        <div class="details">
+          <div class="field">
+            <p class="field-label">Focus</p>
+            <p class="field-value">{focus}</p>
+          </div>
+          <div class="field">
+            <p class="field-label">What's inside</p>
+            <p class="field-value">{contents}</p>
+          </div>
+          <div class="field">
+            <p class="field-label">What you can build</p>
+            <p class="field-value">{potentialUses}</p>
+          </div>
+        </div>
+      </div>
+    </>
+  )}
 </article>
 
 <style>
@@ -89,6 +105,9 @@ const statusLabel = status === 'available' ? 'Available' : 'In development';
     width: 100%;
     padding: 1.1rem 1.25rem;
     cursor: pointer;
+  }
+  .row-header-static {
+    cursor: default;
   }
 
   .thumb {
